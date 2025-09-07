@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HWeb - Jasa Pembuatan Website Modern | Paling Cepat 24 Jam</title>
+    <meta name="description" content="Jasa pembuatan website profesional dengan UI/UX modern, responsif, dan SEO friendly. Dapatkan website impian Anda dalam 24 jam dengan domain gratis!">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#3b82f6',
+                        'accent': '#fbbf24',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-primary">HWeb</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <button onclick="scrollToSection('layanan')" class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                            Layanan
+                        </button>
+                        <button onclick="scrollToSection('portofolio')" class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                            Portofolio
+                        </button>
+                        <button onclick="scrollToSection('testimoni')" class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                            Testimoni
+                        </button>
+                        <button onclick="scrollToSection('faq')" class="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors">
+                            FAQ
+                        </button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-600 hover:text-primary" onclick="toggleMobileMenu()">
+                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+                <button onclick="scrollToSection('layanan')" class="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left">
+                    Layanan
+                </button>
+                <button onclick="scrollToSection('portofolio')" class="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left">
+                    Portofolio
+                </button>
+                <button onclick="scrollToSection('testimoni')" class="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left">
+                    Testimoni
+                </button>
+                <button onclick="scrollToSection('faq')" class="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left">
+                    FAQ
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-16 lg:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="fade-in">
+                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-white/20 text-white/90 backdrop-blur-sm mb-6">
+                        🚀 Paling Cepat 24 Jam
+                    </span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 slide-up">
+                    Jasa Pembuatan Website
+                    <span class="block text-accent">Modern & Profesional</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto slide-up">
+                    Wujudkan website impian Anda dengan desain UI/UX modern, responsif, dan SEO friendly. 
+                    Dapatkan <span class="font-semibold text-accent">domain gratis</span> untuk setiap pemesanan!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center slide-up">
+                    <a href="https://wa.me/+6282241003726" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center justify-center px-8 py-4 bg-accent hover:bg-yellow-500 text-white font-semibold rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <svg class="mr-3 text-xl" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        Pesan Via WhatsApp
+                    </a>
+                    <button onclick="scrollToSection('layanan')" class="inline-flex items-center justify-center px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg text-lg transition-all duration-300 backdrop-blur-sm">
+                        <svg class="mr-3" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                        Lihat Layanan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 lg:py-20 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Mengapa Memilih HWeb?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Kami menghadirkan solusi website terdepan dengan kualitas premium dan harga terjangkau
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center service-card">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-2xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">24 Jam Selesai</h3>
+                    <p class="text-gray-600">Website Anda siap dalam waktu paling cepat 24 jam</p>
+                </div>
+                <div class="text-center service-card">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-accent/10 rounded-2xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">100% Responsif</h3>
+                    <p class="text-gray-600">Tampilan sempurna di semua perangkat</p>
+                </div>
+                <div class="text-center service-card">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-green-500/10 rounded-2xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Domain Gratis</h3>
+                    <p class="text-gray-600">Pilih domain .xyz, .my.id, atau .biz.id gratis</p>
+                </div>
+                <div class="text-center service-card">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-purple-500/10 rounded-2xl flex items-center justify-center">
+                        <svg class="w-8 h-8 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM4 22h16v-2H4v2zM5.5 5.5C5.5 4.67 6.17 4 7 4h10c.83 0 1.5.67 1.5 1.5V8H5.5V5.5z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">UI/UX Modern</h3>
+                    <p class="text-gray-600">Desain terkini yang menarik dan user-friendly</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="layanan" class="py-16 lg:py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Layanan Kami</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Berbagai jenis website profesional sesuai kebutuhan Anda
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="services-container">
+                <!-- Services will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portofolio" class="py-16 lg:py-20 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Portofolio Kami</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Lihat beberapa website yang telah kami buat untuk klien kami
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-container">
+                <!-- Portfolio items will be loaded here -->
+            </div>
+            <div class="text-center mt-12">
+                <a href="https://wa.me/+6282241003726" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center px-8 py-4 bg-primary hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors">
+                    <svg class="mr-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4.5C7 4.5 3 8.5 3 13.5c0 1.4.4 2.7 1 3.8L3 21l4.4-1.2c1.1.6 2.4 1 3.8 1 5 0 9-4 9-9s-4-8.5-9-8.5z"/>
+                    </svg>
+                    Lihat Portfolio Lengkap
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimoni" class="py-16 lg:py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Testimoni Klien</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Apa kata klien tentang layanan kami
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="testimonials-container">
+                <!-- Testimonials will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 lg:py-20 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Pertanyaan yang sering diajukan tentang layanan kami
+                </p>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
+                <!-- FAQ items will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 lg:py-20 hero-gradient text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4">Siap Membuat Website Impian Anda?</h2>
+                <p class="text-xl text-white/80 mb-8">
+                    Jangan tunggu lagi! Hubungi kami sekarang dan dapatkan website professional dalam waktu 24 jam dengan domain gratis.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/+6282241003726" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center justify-center px-8 py-4 bg-accent hover:bg-yellow-500 text-white font-semibold rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <svg class="mr-3 text-xl" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        Konsultasi Gratis Sekarang
+                    </a>
+                    <a href="tel:+6282241003726" class="inline-flex items-center justify-center px-8 py-4 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-lg text-lg transition-all duration-300 backdrop-blur-sm">
+                        <svg class="mr-3" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        Hubungi Kami
+                    </a>
+                </div>
+                <p class="text-sm text-white/60 mt-6">
+                    * Promo domain gratis berlaku untuk paket website minimal 299K
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-bold text-primary mb-4">HWeb</h3>
+                    <p class="text-white/80 mb-6 max-w-md">
+                        Solusi terpercaya untuk kebutuhan website modern Anda. Kami menghadirkan desain UI/UX terdepan dengan teknologi terkini untuk mengembangkan bisnis Anda.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://wa.me/+6282241003726" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-white/10 hover:bg-accent rounded-lg flex items-center justify-center transition-colors">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <button onclick="scrollToSection('layanan')" class="text-white/80 hover:text-accent transition-colors">
+                                Layanan
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="scrollToSection('portofolio')" class="text-white/80 hover:text-accent transition-colors">
+                                Portofolio
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="scrollToSection('testimoni')" class="text-white/80 hover:text-accent transition-colors">
+                                Testimoni
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="scrollToSection('faq')" class="text-white/80 hover:text-accent transition-colors">
+                                FAQ
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-white/80">
+                            <svg class="mr-3 text-accent" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            <span>+62 822-4100-3726</span>
+                        </li>
+                        <li class="flex items-center text-white/80">
+                            <svg class="mr-3 text-accent" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            <span>frhndevweb@gmail.com</span>
+                        </li>
+                        <li class="flex items-center text-white/80">
+                            <svg class="mr-3 text-accent" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm3.5 6L12 10.5 8.5 8 12 6.5 15.5 8zM12 11.5l3.5 2.5v4L12 16l-3.5 2v-4l3.5-2.5z"/>
+                            </svg>
+                            <span>24/7 Online Support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-white/60 text-sm">
+                        &copy; 2025 HWeb. All rights reserved.
+                    </p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-white/60 hover:text-accent text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-white/60 hover:text-accent text-sm transition-colors">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK (Optional for real-time updates) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/firebase.js"></script>
+</body>
+</html>

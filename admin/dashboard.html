@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - HWeb</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#3b82f6',
+                        'accent': '#fbbf24',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 px-4 py-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-primary">HWeb Admin</h1>
+            <div class="flex items-center space-x-4">
+                <span id="user-email" class="text-sm text-gray-600"></span>
+                <button 
+                    onclick="handleLogout()" 
+                    class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        
+        <!-- Tab Navigation -->
+        <div class="mb-8">
+            <div class="flex space-x-1 bg-gray-100 rounded-lg p-1">
+                <button onclick="switchTab('services')" id="tab-services" class="tab-button active">Layanan</button>
+                <button onclick="switchTab('portfolio')" id="tab-portfolio" class="tab-button">Portofolio</button>
+                <button onclick="switchTab('testimonials')" id="tab-testimonials" class="tab-button">Testimoni</button>
+                <button onclick="switchTab('faqs')" id="tab-faqs" class="tab-button">FAQ</button>
+            </div>
+        </div>
+        
+        <!-- Services Tab -->
+        <div id="content-services" class="tab-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Kelola Layanan</h2>
+                <button onclick="showAddForm('service')" class="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Tambah Layanan
+                </button>
+            </div>
+            <div id="services-list" class="grid gap-4">
+                <!-- Services will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Portfolio Tab -->
+        <div id="content-portfolio" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Kelola Portofolio</h2>
+                <button onclick="showAddForm('portfolio')" class="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Tambah Portofolio
+                </button>
+            </div>
+            <div id="portfolio-list" class="grid gap-4">
+                <!-- Portfolio will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Testimonials Tab -->
+        <div id="content-testimonials" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Kelola Testimoni</h2>
+                <button onclick="showAddForm('testimonial')" class="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Tambah Testimoni
+                </button>
+            </div>
+            <div id="testimonials-list" class="grid gap-4">
+                <!-- Testimonials will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- FAQs Tab -->
+        <div id="content-faqs" class="tab-content hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Kelola FAQ</h2>
+                <button onclick="showAddForm('faq')" class="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Tambah FAQ
+                </button>
+            </div>
+            <div id="faqs-list" class="grid gap-4">
+                <!-- FAQs will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Add/Edit Forms -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modal-title" class="text-lg font-semibold text-gray-900"></h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="modal-form">
+                <div id="form-fields">
+                    <!-- Form fields will be dynamically generated here -->
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit" id="submit-button" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <span id="submit-text">Simpan</span>
+                        <span id="submit-loading" class="hidden">Menyimpan...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Success/Error Messages -->
+    <div id="toast" class="fixed top-4 right-4 max-w-sm z-50 hidden">
+        <div id="toast-content" class="p-4 rounded-lg shadow-lg">
+            <span id="toast-message"></span>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="../js/firebase.js"></script>
+    <script>
+        let currentTab = 'services';
+        let currentEditItem = null;
+        let currentEditType = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (typeof firebase === 'undefined') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    document.getElementById('user-email').textContent = user.email;
+                    loadAllData();
+                } else {
+                    window.location.href = 'login.html';
+                }
+            });
+            
+            // Setup form submission
+            document.getElementById('modal-form').addEventListener('submit', handleFormSubmit);
+        });
+        
+        // Tab functionality
+        function switchTab(tab) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            
+            currentTab = tab;
+        }
+        
+        // Load all data
+        function loadAllData() {
+            loadServices();
+            loadPortfolio();
+            loadTestimonials();
+            loadFAQs();
+        }
+        
+        // Load services
+        function loadServices() {
+            if (firebase.database) {
+                firebase.database().ref('services').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    const services = data ? Object.values(data) : [];
+                    renderServicesList(services);
+                });
+            }
+        }
+        
+        // Load portfolio
+        function loadPortfolio() {
+            if (firebase.database) {
+                firebase.database().ref('portfolio').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    const portfolio = data ? Object.values(data) : [];
+                    renderPortfolioList(portfolio);
+                });
+            }
+        }
+        
+        // Load testimonials
+        function loadTestimonials() {
+            if (firebase.database) {
+                firebase.database().ref('testimonials').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    const testimonials = data ? Object.values(data) : [];
+                    renderTestimonialsList(testimonials);
+                });
+            }
+        }
+        
+        // Load FAQs
+        function loadFAQs() {
+            if (firebase.database) {
+                firebase.database().ref('faqs').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    const faqs = data ? Object.values(data) : [];
+                    renderFAQsList(faqs);
+                });
+            }
+        }
+        
+        // Render functions
+        function renderServicesList(services) {
+            const container = document.getElementById('services-list');
+            container.innerHTML = '';
+            
+            services.forEach(service => {
+                const card = createServiceAdminCard(service);
+                container.appendChild(card);
+            });
+        }
+        
+        function renderPortfolioList(portfolio) {
+            const container = document.getElementById('portfolio-list');
+            container.innerHTML = '';
+            
+            portfolio.forEach(item => {
+                const card = createPortfolioAdminCard(item);
+                container.appendChild(card);
+            });
+        }
+        
+        function renderTestimonialsList(testimonials) {
+            const container = document.getElementById('testimonials-list');
+            container.innerHTML = '';
+            
+            testimonials.forEach(testimonial => {
+                const card = createTestimonialAdminCard(testimonial);
+                container.appendChild(card);
+            });
+        }
+        
+        function renderFAQsList(faqs) {
+            const container = document.getElementById('faqs-list');
+            container.innerHTML = '';
+            
+            faqs.sort((a, b) => (a.order || 0) - (b.order || 0)).forEach(faq => {
+                const card = createFAQAdminCard(faq);
+                container.appendChild(card);
+            });
+        }
+        
+        // Create admin cards
+        function createServiceAdminCard(service) {
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900 mb-2">${service.title}</h3>
+                        <p class="text-gray-600 mb-2">${service.description}</p>
+                        <p class="font-semibold text-primary">${service.price}</p>
+                        ${service.popular ? '<span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full mt-2">Popular</span>' : ''}
+                    </div>
+                    <div class="flex space-x-2 ml-4">
+                        <button onclick="editItem('service', '${service.id}')" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteItem('services', '${service.id}')" class="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+        
+        function createPortfolioAdminCard(item) {
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.innerHTML = `
+                <div class="flex">
+                    <img src="${item.imageUrl}" alt="${item.title}" class="w-20 h-20 object-cover rounded-lg mr-4">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900 mb-2">${item.title}</h3>
+                        <p class="text-gray-600 mb-2">${item.description}</p>
+                        <div class="flex flex-wrap gap-1">
+                            ${item.tags.map(tag => `<span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 ml-4">
+                        <button onclick="editItem('portfolio', '${item.id}')" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteItem('portfolio', '${item.id}')" class="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+        
+        function createTestimonialAdminCard(testimonial) {
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900 mb-1">${testimonial.name}</h3>
+                        <p class="text-sm text-gray-600 mb-2">${testimonial.position}</p>
+                        <p class="text-gray-700 mb-2 italic">"${testimonial.content}"</p>
+                        <div class="text-yellow-400">${stars}</div>
+                    </div>
+                    <div class="flex space-x-2 ml-4">
+                        <button onclick="editItem('testimonial', '${testimonial.id}')" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteItem('testimonials', '${testimonial.id}')" class="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+        
+        function createFAQAdminCard(faq) {
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-900 mb-2">${faq.question}</h3>
+                        <p class="text-gray-600">${faq.answer}</p>
+                    </div>
+                    <div class="flex space-x-2 ml-4">
+                        <button onclick="editItem('faq', '${faq.id}')" class="p-2 text-gray-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="deleteItem('faqs', '${faq.id}')" class="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+        
+        // Form functions
+        function showAddForm(type) {
+            currentEditItem = null;
+            currentEditType = type;
+            generateForm(type);
+            document.getElementById('modal-title').textContent = getFormTitle(type, false);
+            document.getElementById('modal').classList.add('show');
+        }
+        
+        function editItem(type, id) {
+            currentEditType = type;
+            // Get item data from Firebase
+            const path = type === 'service' ? 'services' : 
+                         type === 'portfolio' ? 'portfolio' :
+                         type === 'testimonial' ? 'testimonials' : 'faqs';
+            
+            firebase.database().ref(`${path}/${id}`).once('value')
+                .then((snapshot) => {
+                    currentEditItem = snapshot.val();
+                    generateForm(type, currentEditItem);
+                    document.getElementById('modal-title').textContent = getFormTitle(type, true);
+                    document.getElementById('modal').classList.add('show');
+                });
+        }
+        
+        function generateForm(type, data = {}) {
+            const container = document.getElementById('form-fields');
+            container.innerHTML = '';
+            
+            switch (type) {
+                case 'service':
+                    generateServiceForm(container, data);
+                    break;
+                case 'portfolio':
+                    generatePortfolioForm(container, data);
+                    break;
+                case 'testimonial':
+                    generateTestimonialForm(container, data);
+                    break;
+                case 'faq':
+                    generateFAQForm(container, data);
+                    break;
+            }
+        }
+        
+        function generateServiceForm(container, data = {}) {
+            container.innerHTML = `
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Judul</label>
+                    <input type="text" name="title" value="${data.title || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                    <textarea name="description" rows="3" class="form-input w-full" required>${data.description || ''}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fitur (satu per baris)</label>
+                    <textarea name="features" rows="4" class="form-input w-full" placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3">${(data.features || []).join('\n')}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                    <input type="text" name="price" value="${data.price || ''}" class="form-input w-full" placeholder="Mulai dari 299K" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                    <select name="icon" class="form-input w-full">
+                        <option value="user" ${data.icon === 'user' ? 'selected' : ''}>User</option>
+                        <option value="building" ${data.icon === 'building' ? 'selected' : ''}>Building</option>
+                        <option value="blog" ${data.icon === 'blog' ? 'selected' : ''}>Blog</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="popular" ${data.popular ? 'checked' : ''} class="rounded border-gray-300 text-primary focus:ring-primary">
+                        <span class="ml-2 text-sm text-gray-700">Layanan Populer</span>
+                    </label>
+                </div>
+            `;
+        }
+        
+        function generatePortfolioForm(container, data = {}) {
+            container.innerHTML = `
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Judul</label>
+                    <input type="text" name="title" value="${data.title || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                    <textarea name="description" rows="3" class="form-input w-full" required>${data.description || ''}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">URL Gambar</label>
+                    <input type="url" name="imageUrl" value="${data.imageUrl || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tags (pisahkan dengan koma)</label>
+                    <input type="text" name="tags" value="${(data.tags || []).join(', ')}" class="form-input w-full" placeholder="E-Commerce, Responsive, SEO">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
+                    <input type="text" name="category" value="${data.category || ''}" class="form-input w-full" placeholder="E-Commerce" required>
+                </div>
+            `;
+        }
+        
+        function generateTestimonialForm(container, data = {}) {
+            container.innerHTML = `
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama</label>
+                    <input type="text" name="name" value="${data.name || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Posisi/Jabatan</label>
+                    <input type="text" name="position" value="${data.position || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Testimoni</label>
+                    <textarea name="content" rows="4" class="form-input w-full" required>${data.content || ''}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Rating (1-5)</label>
+                    <select name="rating" class="form-input w-full">
+                        <option value="1" ${data.rating === 1 ? 'selected' : ''}>1 Bintang</option>
+                        <option value="2" ${data.rating === 2 ? 'selected' : ''}>2 Bintang</option>
+                        <option value="3" ${data.rating === 3 ? 'selected' : ''}>3 Bintang</option>
+                        <option value="4" ${data.rating === 4 ? 'selected' : ''}>4 Bintang</option>
+                        <option value="5" ${data.rating === 5 ? 'selected' : ''}>5 Bintang</option>
+                    </select>
+                </div>
+            `;
+        }
+        
+        function generateFAQForm(container, data = {}) {
+            container.innerHTML = `
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pertanyaan</label>
+                    <input type="text" name="question" value="${data.question || ''}" class="form-input w-full" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jawaban</label>
+                    <textarea name="answer" rows="4" class="form-input w-full" required>${data.answer || ''}</textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Urutan</label>
+                    <input type="number" name="order" value="${data.order || 0}" class="form-input w-full" min="0">
+                </div>
+            `;
+        }
+        
+        function getFormTitle(type, isEdit) {
+            const titles = {
+                service: isEdit ? 'Edit Layanan' : 'Tambah Layanan',
+                portfolio: isEdit ? 'Edit Portofolio' : 'Tambah Portofolio',
+                testimonial: isEdit ? 'Edit Testimoni' : 'Tambah Testimoni',
+                faq: isEdit ? 'Edit FAQ' : 'Tambah FAQ'
+            };
+            return titles[type] || '';
+        }
+        
+        // Handle form submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const submitButton = document.getElementById('submit-button');
+            const submitText = document.getElementById('submit-text');
+            const submitLoading = document.getElementById('submit-loading');
+            
+            submitButton.disabled = true;
+            submitText.classList.add('hidden');
+            submitLoading.classList.remove('hidden');
+            
+            try {
+                const formData = new FormData(e.target);
+                const data = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'features' || key === 'tags') {
+                        data[key] = value.split(/[,\n]/).map(item => item.trim()).filter(item => item);
+                    } else if (key === 'popular') {
+                        data[key] = true;
+                    } else if (key === 'rating' || key === 'order') {
+                        data[key] = parseInt(value);
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                
+                // Handle checkbox for popular (if not checked, it won't be in formData)
+                if (currentEditType === 'service' && !formData.has('popular')) {
+                    data.popular = false;
+                }
+                
+                const path = currentEditType === 'service' ? 'services' : 
+                           currentEditType === 'portfolio' ? 'portfolio' :
+                           currentEditType === 'testimonial' ? 'testimonials' : 'faqs';
+                
+                if (currentEditItem) {
+                    // Update existing item
+                    await firebase.database().ref(`${path}/${currentEditItem.id}`).set({
+                        ...data,
+                        id: currentEditItem.id
+                    });
+                    showToast('Data berhasil diupdate', 'success');
+                } else {
+                    // Create new item
+                    const newRef = firebase.database().ref(path).push();
+                    await newRef.set({
+                        ...data,
+                        id: newRef.key
+                    });
+                    showToast('Data berhasil ditambahkan', 'success');
+                }
+                
+                closeModal();
+                
+            } catch (error) {
+                console.error('Error saving data:', error);
+                showToast('Gagal menyimpan data', 'error');
+            } finally {
+                submitButton.disabled = false;
+                submitText.classList.remove('hidden');
+                submitLoading.classList.add('hidden');
+            }
+        }
+        
+        // Delete item
+        async function deleteItem(path, id) {
+            if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+                try {
+                    await firebase.database().ref(`${path}/${id}`).remove();
+                    showToast('Data berhasil dihapus', 'success');
+                } catch (error) {
+                    console.error('Error deleting item:', error);
+                    showToast('Gagal menghapus data', 'error');
+                }
+            }
+        }
+        
+        // Modal functions
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            currentEditItem = null;
+            currentEditType = null;
+        }
+        
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastContent = document.getElementById('toast-content');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            
+            // Set colors based on type
+            if (type === 'success') {
+                toastContent.className = 'p-4 rounded-lg shadow-lg bg-green-500 text-white';
+            } else if (type === 'error') {
+                toastContent.className = 'p-4 rounded-lg shadow-lg bg-red-500 text-white';
+            } else {
+                toastContent.className = 'p-4 rounded-lg shadow-lg bg-blue-500 text-white';
+            }
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // Logout function
+        async function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                try {
+                    await firebase.auth().signOut();
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    showToast('Gagal logout', 'error');
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .tab-button {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-radius: 6px;
+            font-medium: 500;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        
+        .tab-button.active {
+            background-color: white;
+            color: #1f2937;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-button:not(.active):hover {
+            color: #374151;
+        }
+    </style>
+</body>
+</html>

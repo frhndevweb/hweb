@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - HWeb</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { 'inter': ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            'primary': '#3b82f6',
+            'accent': '#fbbf24',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-inter bg-gray-50 min-h-screen flex items-center justify-center px-4">
+
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-primary mb-2">Admin Panel</h1>
+        <p class="text-gray-600">Masuk ke panel admin HWeb</p>
+      </div>
+
+      <!-- Error Message -->
+      <div id="error-message" class="hidden mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+        <span id="error-text"></span>
+      </div>
+
+      <!-- Success Message -->
+      <div id="success-message" class="hidden mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+        <span id="success-text"></span>
+      </div>
+
+      <!-- Google Login Button -->
+      <button 
+        id="google-login" 
+        class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-4 rounded-lg shadow-sm transition-colors duration-200"
+      >
+        <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" class="w-5 h-5">
+        Masuk dengan Google
+      </button>
+
+      <!-- Back to Home -->
+      <div class="mt-8 text-center">
+        <a href="../index.html" class="text-sm text-gray-600 hover:text-primary transition-colors">
+          ← Kembali ke Beranda
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../js/firebase.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const errorMessage = document.getElementById('error-message');
+      const errorText = document.getElementById('error-text');
+      const successMessage = document.getElementById('success-message');
+      const successText = document.getElementById('success-text');
+
+      function showError(msg) {
+        errorText.textContent = msg;
+        errorMessage.classList.remove('hidden');
+        successMessage.classList.add('hidden');
+      }
+
+      function showSuccess(msg) {
+        successText.textContent = msg;
+        successMessage.classList.remove('hidden');
+        errorMessage.classList.add('hidden');
+      }
+
+      // auto redirect kalau udah login
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          window.location.href = 'dashboard.html';
+        }
+      });
+
+      // google login
+      document.getElementById('google-login').addEventListener('click', async function() {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          const result = await firebase.auth().signInWithPopup(provider);
+
+          if (result.user) {
+            showSuccess('Login berhasil! Mengalihkan ke dashboard...');
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 1500);
+          }
+        } catch (error) {
+          console.error(error);
+          showError(error.message || 'Login gagal, coba lagi.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
