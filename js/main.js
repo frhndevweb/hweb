@@ -8,13 +8,13 @@ import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.
 
 // ganti pake config project kamu
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyACmK4HXW-DQEB-G94-PUFKL60b0xq1pL8",
+        authDomain: "hweb-eb26b.firebaseapp.com",
+        databaseURL: "https://hweb-eb26b-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "hweb-eb26b",
+        storageBucket: "hweb-eb26b.firebasestorage.app",
+        messagingSenderId: "298100139949",
+        appId: "1:298100139949:web:6cbc848c9f3b3cb2d26324"
 };
 
 const app = initializeApp(firebaseConfig);
