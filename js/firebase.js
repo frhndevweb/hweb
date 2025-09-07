@@ -2,6 +2,8 @@
 
 // Import Firebase SDK from CDN (we'll add this to HTML)
 // This file assumes Firebase is loaded via CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 let app, database, auth;
 
